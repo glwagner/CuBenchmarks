@@ -144,7 +144,8 @@ n=512, GPU  109.104 ms (29852 allocations: 1.49 MiB)
 n=1024, CPU  3.645 s (905 allocations: 51.77 KiB)
 n=1024, GPU  458.940 ms (29852 allocations: 1.49 MiB)
 
-
+n=2048, CPU  27.729 s (905 allocations: 51.77 KiB)
+n=2048, GPU  2.140 s (29852 allocations: 1.49 MiB)
 ```
 
 [Quadro P6000]: https://images.nvidia.com/content/pdf/quadro/data-sheets/192152-NV-DS-Quadro-P6000-US-12Sept-NV-FNL-WEB.pdf
