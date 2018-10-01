@@ -9,7 +9,7 @@ GPU, CUDA, and Julia 0.7 or 1.0 with CuArrays linked to CUDA and the GPU device.
 Download the code with 
 
 ```shell 
-> git clone https://github.com/glwagner/CuSpeedTests.git
+git clone https://github.com/glwagner/CuSpeedTests.git
 ```
 
 To use the project's environment, move into the code directory, start Julia, and press `]` to use Julia's
