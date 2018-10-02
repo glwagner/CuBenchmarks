@@ -8,7 +8,7 @@ GPU, CUDA, and Julia 0.7 or 1.0 with CuArrays linked to CUDA and the GPU device.
 
 Download the code with 
 
-```shell 
+```
 git clone https://github.com/glwagner/CuSpeedTests.git
 ```
 
@@ -46,7 +46,7 @@ julia> include("benchmarks/fftbenchmark.jl")
 
 This benchmark tests 2-dimensional FFTs of complex single- and double-precision arrays of various sizes.
 
-## FFTs
+## Two-dimensional turbulence
 
 After activating, instantiating, and compiling the project, the 'twodturb' benchmark can be run with
 
@@ -57,7 +57,7 @@ julia> include("benchmarks/twodturbbenchmark.jl")
 This benchmark tests the solution of the barotropic vorticity equation on a doubly-periodic domain using
 a pseudospectral method and Forward Euler time-stepping.
 
-# Results in one particular case
+# Results for a particular pair of machines
 
 I have a 8 core linux desktop that runs Ubuntu with Intel(R) Xeon(R) CPU E5-2609 v2 @ 2.50GHz processors
 and 64 GB of memory. My GPU is an [NVIDIA Quadro P6000]() with 24 GB of memory and 3840 cores.
@@ -72,7 +72,7 @@ julia> include("benchmark/simpleopsbenchmark.jl")
 
 are
 
-```shell
+```
 *** CPU/GPU speed comparison for simple operations on arrays of Float32 ***
 
 N:    64^2, cpu mult: 0.0014, cpu broadcasted mult: 0.0013
@@ -127,7 +127,7 @@ julia> include("benchmarks/fftbenchmark.jl")
 
 are
 
-```shell
+```
 Testing CPU Float64 complex fft speed...
 64... 128... 256... 512... 1024... 2048... 4096... 8192... 
 Testing GPU Float64 complex fft speed...
@@ -156,7 +156,7 @@ Testing GPU Float64 complex fft speed...
    ratio |     0.91884 |   4.03436 |  28.96920 |  229.75366 |   7.21083 | 
 ```
 
-## Twodturb
+## Two-dimensional turbulence
 
 The results of
 
@@ -166,7 +166,7 @@ julia> include("benchmarks/twodturbbenchmark.jl")
 
 are
 
-```shell
+```
 100 steps of Float32 twodturb with n=   64^2. CPU:   0.0141 s, GPU:   0.0236, ratio:  0.60
 100 steps of Float32 twodturb with n=  128^2. CPU:   0.0388 s, GPU:   0.0251, ratio:  1.55
 100 steps of Float32 twodturb with n=  256^2. CPU:   0.1264 s, GPU:   0.0295, ratio:  4.29
