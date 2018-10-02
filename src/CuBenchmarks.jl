@@ -1,11 +1,9 @@
-module CuSpeedTests
+module CuBenchmarks
 
 export 
-  testfftspeed,
-  printresults,
-  testbroadcastspeed,
-  twodturbspeedtest!,
-  Vars
+  fftbenchmark,
+  simpleopsbenchmark,
+  twodturbbenchmark
 
 using
   Random,
@@ -22,8 +20,8 @@ macro cuconvertarrays(vars...)
   expr 
 end
 
-include("fft.jl")
-include("simpleops.jl")
-include("twodturb.jl")
+include("cpugpufft.jl")
+include("cpugpusimpleops.jl")
+include("cpugputwodturb.jl")
 
 end # module

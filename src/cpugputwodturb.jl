@@ -5,13 +5,28 @@ in a doubly-periodic box. Time-stepping is Forward Euler. Does not
 dealias.
 =#
 
-function twodturbspeedtest!(vs, nu, dt, nsteps; dmsg=1000)
+function twodturbbenchmark(n; L=2π, nu=8e-5, dt=1e-2, nsteps=100, T=Float64)
+  vcpu = Vars(T, n, Lx; usegpu=false)
+  vgpu = Vars(T, n, Lx; usegpu=true)
+
+  # Precompile
+  integratetwodturb!(vcpu, nu, dt, 1)
+  integratetwodturb!(vgpu, nu, dt, 1)
+
+  tcpu = @belapsed integratetwodturb!(vcpu, nu, dt, nsteps)
+  tgpu = @belapsed integratetwodturb!(vgpu, nu, dt, nsteps)
+
+  @printf "n=%d, CPU: %.4f s, GPU: %.4f, ratio: %.2f\n" n tcpu tgpu tgpu/tcpu
+
+  nothing
+end
+
+function integratetwodturb!(vs, nu, dt, nsteps; dmsg=1000)
   t = 0.0
   for step = 1:nsteps
     if step % dmsg == 0 && step > 1
       @printf("step: %04d, t: %6.1f\n", step, t)
     end
-
     # Step forward
     calcrhs!(vs, nu)
     @. vs.qh += dt*vs.rhs
@@ -19,7 +34,6 @@ function twodturbspeedtest!(vs, nu, dt, nsteps; dmsg=1000)
   end
   vs.qsh .= vs.qh
   ldiv!(vs.q, vs.rfftplan, vs.qsh)
-
   nothing
 end
 

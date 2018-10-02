@@ -1,48 +1,46 @@
-function testfftspeed(ns; T=Float64, dim=3, nthreads=Sys.CPU_THREADS, effort=FFTW.MEASURE, nloops=100,
-                      ffttype="complex")
-                      
+ffttype = "complex"
+
+function fftbenchmark(ns; T=Float64, dim=3, nthreads=Sys.CPU_THREADS, effort=FFTW.MEASURE, nloops=1000)
   FFTW.set_num_threads(nthreads)
-  ENV["MKL_NUM_THREADS"] = nthreads
-  ENV["JULIA_NUM_THREADS"] = nthreads
+  times = fill(0.0, length(ns))
+  gputimes = fill(0.0, length(ns))
 
-  times = zeros(T, length(ns))
-  gputimes = zeros(T, length(ns))
-
-  @printf("\nTesting CPU %s fft speed...\n", ffttype)
+  @printf("\nTesting CPU %s %s fft speed...\n", T, ffttype)
   for (i, n) in enumerate(ns)
     @printf "%d... " n
+
     a = makearray(n, dim, T)
     ah = fft(a)
     fftplan = plan_fft(deepcopy(a); flags=effort)
     fftloop!(a, ah, fftplan; nloops=1) # Compile
+
     times[i] = @belapsed fftloop!($a, $ah, $fftplan; nloops=$nloops) # Run
   end
 
-  @printf("\nTesting GPU %s fft speed...\n", ffttype)
+  @printf("\nTesting GPU %s %s fft speed...\n", T, ffttype)
   for (i, n) in enumerate(ns)
     @printf "%d... " n
+
     a = CuArray(makearray(n, dim, T))
     ah = fft(a)
     fftplan = plan_fft(deepcopy(a))
     fftloop!(a, ah, fftplan; nloops=1)
+
     gputimes[i] = @belapsed fftloop!($a, $ah, $fftplan; nloops=$nloops)
   end
 
   @printf "done.\n"
 
-  ns, nthreads, dim, times, gputimes
+  fftmsg(nthreads, ns, nloops, dim, times, gputimes, T)
+  nothing
 end
 
-
-"""
-Prettily print the results of an fft test across arrays of size ns and
-nthreads.
-"""
-function printresults(nthreads, ns, nloops, dim, times, gputimes; ffttype="complex")
+"Prettily print the results of an fft test across arrays of size ns and nthreads."
+function fftmsg(nthreads, ns, nloops, dim, times, gputimes, T)
 
   # Header
-  results = @sprintf("\n*** %s %dd fft results (%d cpu threads, %d loops) ***\n\n", 
-                     ffttype, dim, nthreads, nloops)
+  results = @sprintf("\n*** %s %dd %s fft results (%d cpu threads, %d loops) ***\n\n", 
+                     ffttype, dim, T, nthreads, nloops)
   results *= @sprintf(" machine | n:")
   for n in ns
     results *= @sprintf("% 9d | ", n)
@@ -66,7 +64,7 @@ function printresults(nthreads, ns, nloops, dim, times, gputimes; ffttype="compl
   end
   results *= "\n"
 
-  results *= @sprintf("% 8s |   ", "speedup")
+  results *= @sprintf("% 8s |   ", "ratio")
   for (i, n) in enumerate(ns)
     results *= @sprintf("% 9.5f | ", times[i]/gputimes[i])
   end
@@ -77,15 +75,15 @@ function printresults(nthreads, ns, nloops, dim, times, gputimes; ffttype="compl
 end
 
 function makearray(n, dim, T) 
-  shape = Tuple([1 for i=1:dim])
+  shape = Tuple([n for i=1:dim])
   rand(T, shape) .+ im.*rand(T, shape)
 end
 
 function fftloop!(a, ah, fftplan; nloops=100)
   for i = 1:nloops
     mul!(ah, fftplan, a)
+    ah .*= π
     ldiv!(a, fftplan, ah)
   end
   nothing
 end
-

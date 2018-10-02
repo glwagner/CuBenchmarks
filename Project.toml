@@ -1,4 +1,4 @@
-name = "CuSpeedTests"
+name = "CuBenchmarks"
 uuid = "92877a6a-c353-11e8-02fd-b9fd2d566883"
 authors = ["Gregory LeClaire Wagner <wagner.greg@gmail.com>"]
 version = "0.1.0"

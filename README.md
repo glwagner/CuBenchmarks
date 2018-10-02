@@ -1,4 +1,4 @@
-# CuSpeedTests
+# CuBenchmarks
 
 Somewhat haphazard benchmarks that compare CPU to GPU performance via CuArrays.jl.
 
@@ -60,7 +60,7 @@ a pseudospectral method and Forward Euler time-stepping.
 # Results in one particular case
 
 I have a 8 core linux desktop that runs Ubuntu with Intel(R) Xeon(R) CPU E5-2609 v2 @ 2.50GHz processors
-and 64 GB of memory. My CPU is a [Quadro P6000]() with 24 GB of on-device memory and 3840 cores.
+and 64 GB of memory. My GPU is an [NVIDIA Quadro P6000]() with 24 GB of memory and 3840 cores.
 
 ## Simple ops
 
@@ -74,31 +74,46 @@ are
 
 ```shell
 *** CPU/GPU speed comparison for simple operations on arrays of Float32 ***
+
 N:    64^2, cpu mult: 0.0014, cpu broadcasted mult: 0.0013
-            gpu mult: 0.0099, gpu broadcasted mult: 0.0099
-N:   128^2, cpu mult: 0.0063, cpu broadcasted mult: 0.0049
-            gpu mult: 0.0096, gpu broadcasted mult: 0.0107
-N:   256^2, cpu mult: 0.0352, cpu broadcasted mult: 0.0260
-            gpu mult: 0.0111, gpu broadcasted mult: 0.0112
-N:   512^2, cpu mult: 0.1390, cpu broadcasted mult: 0.1015
-            gpu mult: 0.0111, gpu broadcasted mult: 0.0113
-N:  1024^2, cpu mult: 1.2929, cpu broadcasted mult: 0.5533
-            gpu mult: 0.0133, gpu broadcasted mult: 0.0135
-N:  2048^2, cpu mult: 7.4291, cpu broadcasted mult: 4.7246
-            gpu mult: 0.0134, gpu broadcasted mult: 0.0136
+            gpu mult: 0.0101, gpu broadcasted mult: 0.0101
+               ratio: 0.14  ,                ratio: 0.13  
+N:   128^2, cpu mult: 0.0058, cpu broadcasted mult: 0.0044
+            gpu mult: 0.0100, gpu broadcasted mult: 0.0102
+               ratio: 0.58  ,                ratio: 0.44  
+N:   256^2, cpu mult: 0.0357, cpu broadcasted mult: 0.0261
+            gpu mult: 0.0103, gpu broadcasted mult: 0.0104
+               ratio: 3.46  ,                ratio: 2.52  
+N:   512^2, cpu mult: 0.1388, cpu broadcasted mult: 0.1012
+            gpu mult: 0.0108, gpu broadcasted mult: 0.0108
+               ratio: 12.89 ,                ratio: 9.39  
+N:  1024^2, cpu mult: 1.3515, cpu broadcasted mult: 0.5379
+            gpu mult: 0.0125, gpu broadcasted mult: 0.0126
+               ratio: 108.16,                ratio: 42.85 
+N:  2048^2, cpu mult: 6.6590, cpu broadcasted mult: 4.7654
+            gpu mult: 0.0127, gpu broadcasted mult: 0.0129
+               ratio: 523.32,                ratio: 370.43
+
 *** CPU/GPU speed comparison for simple operations on arrays of Float64 ***
-N:    64^2, cpu mult: 0.0027, cpu broadcasted mult: 0.0023
-            gpu mult: 0.0106, gpu broadcasted mult: 0.0098
-N:   128^2, cpu mult: 0.0162, cpu broadcasted mult: 0.0104
-            gpu mult: 0.0106, gpu broadcasted mult: 0.0109
-N:   256^2, cpu mult: 0.0695, cpu broadcasted mult: 0.0512
-            gpu mult: 0.0110, gpu broadcasted mult: 0.0111
-N:   512^2, cpu mult: 0.2943, cpu broadcasted mult: 0.2025
-            gpu mult: 0.0133, gpu broadcasted mult: 0.0119
-N:  1024^2, cpu mult: 3.6762, cpu broadcasted mult: 2.2882
-            gpu mult: 0.0135, gpu broadcasted mult: 0.0133
-N:  2048^2, cpu mult: 13.1741, cpu broadcasted mult: 6.8731
-            gpu mult: 0.0132, gpu broadcasted mult: 0.0134
+
+N:    64^2, cpu mult: 0.0029, cpu broadcasted mult: 0.0023
+            gpu mult: 0.0102, gpu broadcasted mult: 0.0102
+               ratio: 0.28  ,                ratio: 0.22  
+N:   128^2, cpu mult: 0.0174, cpu broadcasted mult: 0.0101
+            gpu mult: 0.0103, gpu broadcasted mult: 0.0102
+               ratio: 1.69  ,                ratio: 1.00  
+N:   256^2, cpu mult: 0.0695, cpu broadcasted mult: 0.0518
+            gpu mult: 0.0104, gpu broadcasted mult: 0.0107
+               ratio: 6.69  ,                ratio: 4.84  
+N:   512^2, cpu mult: 0.2775, cpu broadcasted mult: 0.2032
+            gpu mult: 0.0124, gpu broadcasted mult: 0.0115
+               ratio: 22.41 ,                ratio: 17.64 
+N:  1024^2, cpu mult: 3.6468, cpu broadcasted mult: 2.3000
+            gpu mult: 0.0125, gpu broadcasted mult: 0.0126
+               ratio: 291.95,                ratio: 182.23
+N:  2048^2, cpu mult: 14.2797, cpu broadcasted mult: 9.6399
+            gpu mult: 0.0127, gpu broadcasted mult: 0.0126
+               ratio: 1127.85,                ratio: 764.85
 ```
 
 
@@ -148,4 +163,4 @@ n=2048, CPU  27.729 s (905 allocations: 51.77 KiB)
 n=2048, GPU  2.140 s (29852 allocations: 1.49 MiB)
 ```
 
-[Quadro P6000]: https://images.nvidia.com/content/pdf/quadro/data-sheets/192152-NV-DS-Quadro-P6000-US-12Sept-NV-FNL-WEB.pdf
+[NVIDIA Quadro P6000]: https://images.nvidia.com/content/pdf/quadro/data-sheets/192152-NV-DS-Quadro-P6000-US-12Sept-NV-FNL-WEB.pdf
