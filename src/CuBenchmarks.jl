@@ -20,8 +20,8 @@ macro cuconvertarrays(vars...)
   expr 
 end
 
-include("cpugpufft.jl")
-include("cpugpusimpleops.jl")
-include("cpugputwodturb.jl")
+include("fft.jl")
+include("simpleops.jl")
+include("twodturb.jl")
 
 end # module
