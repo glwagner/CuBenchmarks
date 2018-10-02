@@ -21,7 +21,7 @@ pkg> instantiate
 pkg> precompile
 ```
 
-Some sample benchmarks which can be modified to suit preferences and needs are included in `scripts/`. 
+Some sample benchmarking scripts which can be modified to suit preferences and needs are included in `benchmarks/`. 
 
 
 ## Simple ops
@@ -29,7 +29,7 @@ Some sample benchmarks which can be modified to suit preferences and needs are i
 After activating, instantiating, and compiling the project, the simple ops benchmark can be run with
 
 ```julia
-julia> include("scripts/speedtest_simpleops.jl")
+julia> include("benchmarks/simpleops.jl")
 ```
 
 This benchmark compares element-wise array multiplication between single- and double-precision arrays of the same 
@@ -41,7 +41,7 @@ size, and a broadcasted multiplication between two arrays of different size.
 After activating, instantiating, and compiling the project, the FFT benchmark can be run with
 
 ```julia
-julia> include("scripts/speedtest_fft.jl")
+julia> include("benchmarks/fft.jl")
 ```
 
 This benchmark tests 2-dimensional FFTs of complex single- and double-precision arrays of various sizes.
@@ -51,7 +51,7 @@ This benchmark tests 2-dimensional FFTs of complex single- and double-precision 
 After activating, instantiating, and compiling the project, the 'twodturb' benchmark can be run with
 
 ```julia
-julia> include("scripts/speedtest_twodturb.jl")
+julia> include("benchmarks/twodturb.jl")
 ```
 
 This benchmark tests the solution of the barotropic vorticity equation on a doubly-periodic domain using
@@ -67,7 +67,7 @@ and 64 GB of memory. My GPU is an [NVIDIA Quadro P6000]() with 24 GB of memory a
 The results of 
 
 ```julia
-julia> include("scripts/speedtest_simpleops.jl")
+julia> include("benchmark/simpleops.jl")
 ```
 
 are
@@ -122,7 +122,7 @@ N:  2048^2, cpu mult: 14.2797, cpu broadcasted mult: 9.6399
 The results of 
 
 ```julia
-julia> include("scripts/speedtest_fft.jl")
+julia> include("benchmarks/fft.jl")
 ```
 
 are
@@ -138,7 +138,7 @@ are
 The results of
 
 ```julia
-julia> include("scripts/speedtest_twodturb.jl")
+julia> include("benchmarks/twodturb.jl")
 ```
 
 are
