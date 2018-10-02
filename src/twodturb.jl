@@ -6,18 +6,18 @@ dealias.
 =#
 
 function twodturbbenchmark(n; L=2π, nu=8e-5, dt=1e-2, nsteps=100, T=Float64)
-  vcpu = Vars(T, n, Lx; usegpu=false)
-  vgpu = Vars(T, n, Lx; usegpu=true)
+  vcpu = Vars(T, n, L; usegpu=false)
+  vgpu = Vars(T, n, L; usegpu=true)
 
   # Precompile
   integratetwodturb!(vcpu, nu, dt, 1)
   integratetwodturb!(vgpu, nu, dt, 1)
 
-  tcpu = @belapsed integratetwodturb!(vcpu, nu, dt, nsteps)
-  tgpu = @belapsed integratetwodturb!(vgpu, nu, dt, nsteps)
+  tcpu = @belapsed integratetwodturb!($vcpu, $nu, $dt, $nsteps)
+  tgpu = @belapsed integratetwodturb!($vgpu, $nu, $dt, $nsteps)
 
-  @printf "n=%d, CPU: %.4f s, GPU: %.4f, ratio: %.2f\n" n tcpu tgpu tgpu/tcpu
-
+  @printf("%d steps of %s twodturb with n=% 5d^2. CPU: % 8.4f s, GPU: % 8.4f, ratio: % 4.2f\n",
+          nsteps, T, n, tcpu, tgpu, tcpu/tgpu)
   nothing
 end
 
@@ -104,7 +104,7 @@ function Vars(T, nx, Lx; usegpu=false)
   invKsq[1, 1] = 0.0  # Will eliminate 0th mode during inversion
 
   # Random initial condition
-  q = rand(nx, nx)
+  q = rand(T, nx, nx)
   qh = rfft(q)
 
   # Preallocate
