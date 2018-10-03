@@ -1,6 +1,6 @@
 ffttype = "complex"
 
-function fftbenchmark(ns; T=Float64, dim=3, nthreads=Sys.CPU_THREADS, effort=FFTW.MEASURE, nloops=50)
+function fftbenchmark(ns; T=Float64, dim=3, nthreads=Sys.CPU_THREADS, effort=FFTW.MEASURE, nloops=200)
   FFTW.set_num_threads(nthreads)
   times = fill(0.0, length(ns))
   gputimes = fill(0.0, length(ns))
