@@ -21,21 +21,21 @@ function simpleopsbenchmark(testns, T=Float64)
     rtime = @belapsed mult!($A, $B, $C)
     btime = @belapsed broadcastmult!($A, $b, $C)
 
-    gpurtime = @belapsed mult!($Ag, $Bg, $Cg)
-    gpubtime = @belapsed broadcastmult!($Ag, $bg, $Cg)
+    gpurtime = @belapsed CuArrays.@sync mult!($Ag, $Bg, $Cg)
+    gpubtime = @belapsed CuArrays.@sync broadcastmult!($Ag, $bg, $Cg)
 
     println(simpleopsmsg(n, btime, rtime, gpubtime, gpurtime))
   end
   nothing
 end
 
-function broadcastmult!(A, x, F; nloops=1000)
+function broadcastmult!(A, x, F; nloops=100)
   for i = 1:nloops
     @. A = x*F
   end
 end
 
-function mult!(A, X, F; nloops=1000)
+function mult!(A, X, F; nloops=100)
   for i = 1:nloops
     @. A = X*F
   end
